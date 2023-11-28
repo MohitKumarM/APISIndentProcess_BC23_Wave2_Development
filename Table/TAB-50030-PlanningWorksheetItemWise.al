@@ -213,14 +213,19 @@ table 50030 "PM Planning Item Wise"
         SOQty_Var: Decimal;
         ForecastQty_Var: Decimal;
         StockQty_var: Decimal;
+        manufSetup: Record "Manufacturing Setup";
     begin
+        manufSetup.Get();
+        manufSetup.TestField("Reject Location");
+        manufSetup.TestField("Production Location");
+
         IF not Confirm('Do you want to update Planning Worksheet?') then
             exit;
         PlanningWorksheet_Loc_1.DeleteAll();
         Commit();
         Location_loc.Reset();
         //Location_loc.SetFilter(Code, 'RED|BLUE|GREEN|YELLOW|WHITE');
-        Location_loc.SetRange("Reject Unit", false);
+        Location_loc.SetFilter(Code, '<>%1', manufSetup."Reject Location");
         if Location_loc.FindSet() then begin
             repeat
                 Item_Loc.Reset();
@@ -274,8 +279,13 @@ table 50030 "PM Planning Item Wise"
         SOQty_Var: Decimal;
         StockQty_var: Decimal;
         ForecastQty_Var: Decimal;
+        manufsetup: Record "Manufacturing Setup";
 
     begin
+        manufSetup.Get();
+        manufSetup.TestField("Reject Location");
+        manufSetup.TestField("Production Location");
+
         Clear(SOQty_Var);
         Clear(StockQty_var);
         Clear(ForecastQty_Var);
@@ -297,7 +307,7 @@ table 50030 "PM Planning Item Wise"
             SOQty_Var := calculateSalesQtyItemLocationWise(PlanningWorksheet_Loc_1."Item Code", Location_loc.Code);
             StockQty_var := CalculateStockItemLocationWise(PlanningWorksheet_Loc_1."Item Code", Location_loc.Code);
             ForecastQty_Var := CalculateForecastQty(PlanningWorksheet_Loc_1."Item Code", Location_loc.Code);
-            if (Location_loc."Production Unit" = false) then begin
+            if (Location_loc.Code <> manufsetup."Production Location") then begin
                 PlanningWorksheet_Loc_1."SO Qty" := SOQty_Var;
                 PlanningWorksheet_Loc_1.Inventory := StockQty_var;
                 PlanningWorksheet_Loc_1."Forecaste Qty." := ForecastQty_Var;
@@ -311,23 +321,16 @@ table 50030 "PM Planning Item Wise"
                 PlanningWorksheet_Loc_1."Actaul Demand" := ((SOQty_Var + ForecastQty_Var) - StockQty_var);
             end;
 
-            if (Location_loc."Production Unit" = true) then begin
+            if (Location_loc.Code = manufsetup."Production Location") then begin
                 PlanningWorksheet_Loc_1."Inventory on Prod. Location" := PlanningWorksheet_Loc_1."Actual inventory";
             end;
-
-            // IF (PlanningWorksheet_Loc_1."Actaul Demand" > (PlanningWorksheet_Loc_1."Inventory on Prod. Location" +
-            // PlanningWorksheet_Loc_1."PO Qty" + PlanningWorksheet_Loc_1."Quote Comp. Qty" + PlanningWorksheet_Loc_1."Qty on Indent")) then
-            //     PlanningWorksheet_Loc_1."Total Demand" := PlanningWorksheet_Loc_1."Actaul Demand" - (PlanningWorksheet_Loc_1."Inventory on Prod. Location" +
-            // PlanningWorksheet_Loc_1."PO Qty" + PlanningWorksheet_Loc_1."Quote Comp. Qty" + PlanningWorksheet_Loc_1."Qty on Indent")
-            // else
-            //     PlanningWorksheet_Loc_1."Total Demand" := 0;
-
             PlanningWorksheet_Loc_1.Insert();
+
         end else begin
             SOQty_Var := calculateSalesQtyItemLocationWise(PlanningWorksheet_Loc_1."Item Code", Location_loc.Code);
             StockQty_var := CalculateStockItemLocationWise(PlanningWorksheet_Loc_1."Item Code", Location_loc.Code);
             ForecastQty_Var := CalculateForecastQty(PlanningWorksheet_Loc_1."Item Code", Location_loc.Code);
-            if (Location_loc."Production Unit" = false) then begin
+            if (Location_loc.Code <> manufsetup."Production Location") then begin
                 PlanningWorksheet_Loc_1."SO Qty" += SOQty_Var;
                 PlanningWorksheet_Loc_1.Inventory += StockQty_var;
                 PlanningWorksheet_Loc_1."Forecaste Qty." += ForecastQty_Var;
@@ -341,18 +344,11 @@ table 50030 "PM Planning Item Wise"
                 PlanningWorksheet_Loc_1."Actaul Demand" += ((SOQty_Var + ForecastQty_Var) - StockQty_var);
             end;
 
-            if (Location_loc."Production Unit" = true) then begin
+            if (Location_loc.Code = manufsetup."Production Location") then begin
                 PlanningWorksheet_Loc_1."Inventory on Prod. Location" += PlanningWorksheet_Loc_1."Actual inventory";
             end;
-
-            // IF (PlanningWorksheet_Loc_1."Actaul Demand" > (PlanningWorksheet_Loc_1."Inventory on Prod. Location" +
-            // PlanningWorksheet_Loc_1."PO Qty" + PlanningWorksheet_Loc_1."Quote Comp. Qty" + PlanningWorksheet_Loc_1."Qty on Indent")) then
-            //     PlanningWorksheet_Loc_1."Total Demand" := PlanningWorksheet_Loc_1."Actaul Demand" - (PlanningWorksheet_Loc_1."Inventory on Prod. Location" +
-            // PlanningWorksheet_Loc_1."PO Qty" + PlanningWorksheet_Loc_1."Quote Comp. Qty" + PlanningWorksheet_Loc_1."Qty on Indent")
-            // else
-            //     PlanningWorksheet_Loc_1."Total Demand" := 0;
-
             PlanningWorksheet_Loc_1.Modify();
+
         end;
     end;
 
