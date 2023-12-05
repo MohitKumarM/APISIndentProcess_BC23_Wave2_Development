@@ -46,8 +46,8 @@ table 50021 "Pre Indent Line"
                             "HSN/SAC Code" := Item."HSN/SAC Code";
                             "Full Description" := Item."Full Description";
                             "PM Item Type" := Item."PM Item Type";
-                            Rec.Validate(Length, Item.Length);
-                            Rec.Validate(Width, Item.Width);
+                            Rec.Validate(Length, Item.Length_);
+                            Rec.Validate(Width, Item.Width_);
                         END;
                     Type::"Fixed Asset":
                         begin

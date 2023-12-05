@@ -26,11 +26,15 @@ report 50021 "Daily Honey Production Report"
             {
 
             }
-            column(Filled; Var_Filled)
+            column(Filled; '')
             {
 
             }
-            column(Packed; Quantity)
+            column(Packed_Unit1; Unit1_Qty)
+            {
+
+            }
+            column(Packed_Unit2; Unit2_Qty)
             {
 
             }
@@ -66,7 +70,7 @@ report 50021 "Daily Honey Production Report"
                 {
 
                 }
-                column(Opening_Stock; '')
+                column(Opening_Stock; Opening_Stock)
                 {
 
                 }
@@ -87,12 +91,32 @@ report 50021 "Daily Honey Production Report"
             }
             trigger OnAfterGetRecord()
             begin
-                Var_Filled := Var_Packing * Quantity;
+                ILE_Var1.Reset();
+                ILE_Var1.SetRange("Item No.", "Item Ledger Entry"."Item No.");
+                ILE_Var1.SetFilter("Posting Date", '%1..%2', FromDate - 1, ToDate);
+                if ILE_Var1.FindFirst() then begin
+                    if ILE_Var1."Location Code" = 'BLUE' then begin
+                        Unit1_Qty := ILE_Var1.Quantity
+                    end else begin
+                        if ILE_Var1."Location Code" = 'RED' then
+                            Unit2_Qty := ILE_Var1.Quantity
+                    end;
+                end;
+
+                ILE_Var.Reset();
+                ILE_Var.SetRange("Item No.", "Item Ledger Entry"."Item No.");
+                ILE_Var.SetFilter("Posting Date", '%1..%2', FromDate - 1, ToDate);
+                ILE_Var.SetFilter(Positive, '%1', true);
+                ILE_Var.SetFilter("Order Type", '%1', "Order Type"::Production);
+                if ILE_Var.FindFirst() then begin
+                    ILE_Var.CalcSums(Quantity);
+                    Opening_Stock := ILE_Var.Quantity;
+                end;
             end;
 
             trigger OnPreDataItem()
             begin
-                SETFILTER("Posting Date", '%1..%2', FromDate, ToDate);
+                SETFILTER("Posting Date", '%1..%2', FromDate - 1, ToDate);
             end;
         }
     }
@@ -129,7 +153,11 @@ report 50021 "Daily Honey Production Report"
         Var_Type: Enum "Customer Type";
         Var_ItmeName: Text[50];
         Var_Filled: Decimal;
+        Unit1_Qty: Decimal;
+        Unit2_Qty: Decimal;
         Var_Packing: Decimal;
         Cust_Var: Record Customer;
         ILE_Var: Record "Item Ledger Entry";
+        ILE_Var1: Record "Item Ledger Entry";
+        Opening_Stock: Decimal;
 }

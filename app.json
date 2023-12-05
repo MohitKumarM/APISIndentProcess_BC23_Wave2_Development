@@ -2,8 +2,9 @@
   "id": "5a0cdcf2-974b-41e7-a8ee-a8856fb4c0f1",
   "name": "APIS_Indent_Process_Dev",
   "publisher": "TCPL",
-  "version": "1.0.1.0",
+  "version": "1.0.1.1",
   "brief": "",
+  "target": "Cloud",
   "description": "",
   "privacyStatement": "",
   "EULA": "",
@@ -15,7 +16,7 @@
       "id": "f7485e1d-515b-41e9-9188-0b8b741e55c2",
       "publisher": "TCPL",
       "name": "APIS_Master_App_Development",
-      "version": "1.0.0.0"
+      "version": "1.0.0.4"
     },
     {
       "id": "c512d720-63b9-4b26-b062-a0c09b4ed322",

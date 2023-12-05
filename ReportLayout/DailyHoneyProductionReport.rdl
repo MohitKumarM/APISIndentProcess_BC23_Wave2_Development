@@ -839,7 +839,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Packed.Value</Value>
+                                  <Value>=Fields!Packed_Unit1.Value</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                   </Style>
@@ -903,7 +903,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Packed.Value</Value>
+                                  <Value>=Fields!Packed_Unit2.Value</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                   </Style>
@@ -924,6 +924,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -3040,14 +3041,14 @@
                                               <TablixHeader>
                                                 <Size>0.375in</Size>
                                                 <CellContents>
-                                                  <Textbox Name="Textbox25">
+                                                  <Textbox Name="Opening_Stock">
                                                     <CanGrow>true</CanGrow>
                                                     <KeepTogether>true</KeepTogether>
                                                     <Paragraphs>
                                                       <Paragraph>
                                                         <TextRuns>
                                                           <TextRun>
-                                                            <Value />
+                                                            <Value>=Fields!Opening_Stock.Value</Value>
                                                             <Style>
                                                               <FontSize>9pt</FontSize>
                                                             </Style>
@@ -3056,7 +3057,7 @@
                                                         <Style />
                                                       </Paragraph>
                                                     </Paragraphs>
-                                                    <rd:DefaultName>Textbox25</rd:DefaultName>
+                                                    <rd:DefaultName>Opening_Stock</rd:DefaultName>
                                                     <Style>
                                                       <Border>
                                                         <Color>LightGrey</Color>
@@ -3094,7 +3095,7 @@
             <Top>0in</Top>
             <Left>0in</Left>
             <Height>1in</Height>
-            <Width>14.13192in</Width>
+            <Width>14.13191in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3102,10 +3103,10 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>2.4375in</Height>
+        <Height>1.16667in</Height>
         <Style />
       </Body>
-      <Width>17.1597in</Width>
+      <Width>14.20137in</Width>
       <Page>
         <PageHeight>8.27in</PageHeight>
         <PageWidth>11.69in</PageWidth>
@@ -3174,14 +3175,17 @@ End Function
         <Field Name="Filled">
           <DataField>Filled</DataField>
         </Field>
-        <Field Name="FilledFormat">
-          <DataField>FilledFormat</DataField>
+        <Field Name="Packed_Unit1">
+          <DataField>Packed_Unit1</DataField>
         </Field>
-        <Field Name="Packed">
-          <DataField>Packed</DataField>
+        <Field Name="Packed_Unit1Format">
+          <DataField>Packed_Unit1Format</DataField>
         </Field>
-        <Field Name="PackedFormat">
-          <DataField>PackedFormat</DataField>
+        <Field Name="Packed_Unit2">
+          <DataField>Packed_Unit2</DataField>
+        </Field>
+        <Field Name="Packed_Unit2Format">
+          <DataField>Packed_Unit2Format</DataField>
         </Field>
         <Field Name="Type">
           <DataField>Type</DataField>
@@ -3209,6 +3213,9 @@ End Function
         </Field>
         <Field Name="Opening_Stock">
           <DataField>Opening_Stock</DataField>
+        </Field>
+        <Field Name="Opening_StockFormat">
+          <DataField>Opening_StockFormat</DataField>
         </Field>
       </Fields>
       <Query>

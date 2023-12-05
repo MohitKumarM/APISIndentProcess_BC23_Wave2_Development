@@ -28,18 +28,18 @@ pageextension 50107 Item extends "Item Card"
                     CurrPage.Update(true);
                 end;
             }
-            field(Length; Rec.Length)
+            field(Length; Rec.Length_)
             {
                 ApplicationArea = all;
                 Editable = PMItemenabled;
 
             }
-            field(Width; Rec.Width)
+            field(Width; Rec.Width_)
             {
                 ApplicationArea = all;
                 Editable = PMItemenabled;
             }
-            field(Brand; Rec.Brand)
+            field(Brand1; Rec.Brand)
             {
                 ApplicationArea = all;
             }
@@ -68,8 +68,8 @@ pageextension 50107 Item extends "Item Card"
                 Rec.TestField("Planning type");
                 IF (Rec."Planning type" = Rec."Planning type"::PM) then begin
                     Rec.TestField("PM Item Type");
-                    Rec.TestField(Length);
-                    Rec.TestField(Width);
+                    Rec.TestField(Length_);
+                    Rec.TestField(Width_);
                 end;
             end;
         }
@@ -96,8 +96,8 @@ pageextension 50107 Item extends "Item Card"
 
             IF (Rec."Planning type" = Rec."Planning type"::PM) then begin
                 IF (Rec."PM Item Type" = Rec."PM Item Type"::Label) then begin
-                    Rec.TestField(Length);
-                    Rec.TestField(Width);
+                    Rec.TestField(Length_);
+                    Rec.TestField(Width_);
                 end;
             end;
 
@@ -123,8 +123,8 @@ pageextension 50107 Item extends "Item Card"
                 ItemTypeEditable := false;
                 PMItemenabled := false;
                 Rec."PM Item Type" := Rec."PM Item Type"::Blank;
-                Rec.Length := 0;
-                Rec.Width := 0;
+                Rec.Length_ := 0;
+                Rec.Width_ := 0;
             end;
         end;
     end;

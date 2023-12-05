@@ -10,14 +10,7 @@ tableextension 50103 Item extends Item
         {
             OptionMembers = Blank,Bottle,Cap,Label,Carton,Pouch;
         }
-        field(50018; Length; Decimal)
-        {
-            DataClassification = ToBeClassified;
-        }
-        field(50019; Width; Decimal)
-        {
-            DataClassification = ToBeClassified;
-        }
+
         field(50020; "Planning type"; option)
         {
             OptionMembers = "FG-Honey","FG-Non Honey",PM,"RM-Honey","RM-NonHoney";
